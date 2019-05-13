@@ -273,6 +273,14 @@ class TelegramBotProtocol(Protocol):
             logging.warning('Empty message ignored: %s, %s' % (chat_id, reply_to_message_id))
             return
         logging.info('sendMessage(%s): %s' % (len(text), text[:20]))
+        # HACK
+        if text.startswith("[slacko"):
+            text = text[len("[slacko"):]
+            # bot nickname can change - slacko1, slacko2 etc.
+            while not text.startswith("]"):
+                text = text[1:]
+            text = text[2:] # "] " - brace and space
+        # ENDHACK
         # 0-4096 characters.
         if len(text) > 2048:
             text = text[:2047] + '…'
