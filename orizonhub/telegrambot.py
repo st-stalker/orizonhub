@@ -228,7 +228,7 @@ class TelegramBotProtocol(Protocol):
             text = '\\[%s] %s' % (smartname(msg.src), content)
             parse_mode = 'Markdown'
         else:
-            if "slacko" in msg.src:
+            if smartname(msg.src).startswith("slacko"):
                 text = msg.alttext or msg.text
             else:
                 text = '[%s] %s' % (smartname(msg.src), msg.alttext or msg.text)
