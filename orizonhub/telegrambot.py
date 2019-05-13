@@ -228,7 +228,10 @@ class TelegramBotProtocol(Protocol):
             text = '\\[%s] %s' % (smartname(msg.src), content)
             parse_mode = 'Markdown'
         else:
-            text = '[%s] %s' % (smartname(msg.src), msg.alttext or msg.text)
+            if "slacko" in msg.src:
+                text = msg.alttext or msg.text
+            else:
+                text = '[%s] %s' % (smartname(msg.src), msg.alttext or msg.text)
         m = self.bot_api('sendMessage', chat_id=self.dest.pid, text=text,
             parse_mode=parse_mode)
         return self._make_message(m)
